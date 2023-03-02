@@ -13,13 +13,14 @@
     <h2>In:</h2>
     <div id="txt-wrap">
         <label for="txt">Text:</label><br>
-        <textarea id="txt" name="txt" cols="40" rows="5" placeholder="input text here..."></textarea>
+        <textarea id="txt" name="txt" cols="40" rows="5" placeholder="input text here..." autofocus></textarea>
         <br>
     </div>
     <div id="font-wrap">
         <label for="font">Font:</label>
         <select id="font" name="font">
-            <option value="16seg">16-segment</option>
+            <!-- <option value=""></option> -->
+            <option value="16seg" selected>16-segment</option>
         </select>
         <div id="description-wrap">
             <p id="description">16-segment display. Compatible with ASCII, Hiragana, Katakana.</p>
@@ -28,34 +29,55 @@
     <hr>
     <h2>Out:</h2>
     <div id="imgseq">
-        <!-- File names are ASCII code of the glyph in hex. -->
-        <!-- "Hello, world!" -->
-        <img class="glyph" src="glyphs/16seg/48.png">
-        <img class="glyph" src="glyphs/16seg/65.png">
-        <img class="glyph" src="glyphs/16seg/6c.png">
-        <img class="glyph" src="glyphs/16seg/6c.png">
-        <img class="glyph" src="glyphs/16seg/6f.png">
-        <img class="glyph" src="glyphs/16seg/2c.png">
-        <img class="glyph" src="glyphs/16seg/20.png">
-        <img class="glyph" src="glyphs/16seg/77.png">
-        <img class="glyph" src="glyphs/16seg/6f.png">
+        <!-- "JavaScript required!" -->
+        <img class="glyph" src="glyphs/16seg/4a.png">
+        <img class="glyph" src="glyphs/16seg/61.png">
+        <img class="glyph" src="glyphs/16seg/76.png">
+        <img class="glyph" src="glyphs/16seg/61.png">
+        <img class="glyph" src="glyphs/16seg/53.png">
+        <img class="glyph" src="glyphs/16seg/63.png">
         <img class="glyph" src="glyphs/16seg/72.png">
-        <img class="glyph" src="glyphs/16seg/6c.png">
+        <img class="glyph" src="glyphs/16seg/69.png">
+        <img class="glyph" src="glyphs/16seg/70.png">
+        <img class="glyph" src="glyphs/16seg/74.png">
+        <img class="glyph" src="glyphs/16seg/20.png">
+        <img class="glyph" src="glyphs/16seg/72.png">
+        <img class="glyph" src="glyphs/16seg/65.png">
+        <img class="glyph" src="glyphs/16seg/71.png">
+        <img class="glyph" src="glyphs/16seg/75.png">
+        <img class="glyph" src="glyphs/16seg/69.png">
+        <img class="glyph" src="glyphs/16seg/72.png">
+        <img class="glyph" src="glyphs/16seg/65.png">
         <img class="glyph" src="glyphs/16seg/64.png">
         <img class="glyph" src="glyphs/16seg/21.png">
         <br clear="both">
-        <!-- "こんにちは、せかい!" -->
-        <img class="glyph" src="glyphs/16seg/3053.png">
-        <img class="glyph" src="glyphs/16seg/3093.png">
-        <img class="glyph" src="glyphs/16seg/306b.png">
-        <img class="glyph" src="glyphs/16seg/3061.png">
-        <img class="glyph" src="glyphs/16seg/306f.png">
-        <img class="glyph" src="glyphs/16seg/3001.png">
-        <img class="glyph" src="glyphs/16seg/305b.png">
+        <!-- "シ゛ャハ゛スクリフ゜トか゛ひつようて゛す" -->
+        <img class="glyph" src="glyphs/16seg/30b7.png">
+        <img class="glyph" src="glyphs/16seg/309b.png">
+        <img class="glyph" src="glyphs/16seg/30e3.png">
+        <img class="glyph" src="glyphs/16seg/30cf.png">
+        <img class="glyph" src="glyphs/16seg/309b.png">
+        <img class="glyph" src="glyphs/16seg/30b9.png">
+        <img class="glyph" src="glyphs/16seg/30af.png">
+        <img class="glyph" src="glyphs/16seg/30ea.png">
+        <img class="glyph" src="glyphs/16seg/30d5.png">
+        <img class="glyph" src="glyphs/16seg/309c.png">
+        <img class="glyph" src="glyphs/16seg/30c8.png">
         <img class="glyph" src="glyphs/16seg/304b.png">
-        <img class="glyph" src="glyphs/16seg/3044.png">
-        <img class="glyph" src="glyphs/16seg/21.png">
+        <img class="glyph" src="glyphs/16seg/309b.png">
+        <img class="glyph" src="glyphs/16seg/3072.png">
+        <img class="glyph" src="glyphs/16seg/3064.png">
+        <img class="glyph" src="glyphs/16seg/3088.png">
+        <img class="glyph" src="glyphs/16seg/3046.png">
+        <img class="glyph" src="glyphs/16seg/3066.png">
+        <img class="glyph" src="glyphs/16seg/309b.png">
+        <img class="glyph" src="glyphs/16seg/3059.png">
     </div>
+    <hr>
+    <div id="footer">
+        <p>©2023 Airoku <a href="https://github.com/yustier/txt2imgseq">Source</a></p>
+    </div>
+
     <script src="main.js"></script>
 </body>
 

@@ -6,11 +6,27 @@ label {
     font-size: 20px;
 }
 
+select {
+    font-size: 16px;
+}
+
 .description {
     font-size: 16px;
 }
 
-img.glyph {
+#imgseq {
+    white-space: nowrap;
+    overflow-x: auto;
+    font-size: 0;
+}
+
+.glyph {
     width: 40px;
-    float: left;
+    vertical-align: top;
+}
+
+.height-spacer {
+    display: inline-block;
+    height: 52px;
+    vertical-align: top;
 }
