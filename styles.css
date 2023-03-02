@@ -1,0 +1,16 @@
+label {
+    font-size: 20px;
+}
+
+#txt {
+    font-size: 20px;
+}
+
+.description {
+    font-size: 16px;
+}
+
+img.glyph {
+    width: 40px;
+    float: left;
+}

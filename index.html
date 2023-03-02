@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>txt2imgseq</title>
+</head>
+
+<body>
+    <h1>txt2imgseq</h1>
+    <hr>
+    <h2>In:</h2>
+    <div id="txt-wrap">
+        <label for="txt">Text:</label><br>
+        <textarea id="txt" name="txt" cols="40" rows="5" placeholder="input text here..."></textarea>
+        <br>
+    </div>
+    <div id="font-wrap">
+        <label for="font">Font:</label>
+        <select id="font" name="font">
+            <option value="16seg">16-segment</option>
+        </select>
+        <div id="description-wrap">
+            <p id="description">16-segment display. Compatible with ASCII, Hiragana, Katakana.</p>
+        </div>
+    </div>
+    <hr>
+    <h2>Out:</h2>
+    <div id="imgseq">
+        <!-- File names are ASCII code of the glyph in hex. -->
+        <!-- "Hello, world!" -->
+        <img class="glyph" src="glyphs/16seg/48.png">
+        <img class="glyph" src="glyphs/16seg/65.png">
+        <img class="glyph" src="glyphs/16seg/6c.png">
+        <img class="glyph" src="glyphs/16seg/6c.png">
+        <img class="glyph" src="glyphs/16seg/6f.png">
+        <img class="glyph" src="glyphs/16seg/2c.png">
+        <img class="glyph" src="glyphs/16seg/20.png">
+        <img class="glyph" src="glyphs/16seg/77.png">
+        <img class="glyph" src="glyphs/16seg/6f.png">
+        <img class="glyph" src="glyphs/16seg/72.png">
+        <img class="glyph" src="glyphs/16seg/6c.png">
+        <img class="glyph" src="glyphs/16seg/64.png">
+        <img class="glyph" src="glyphs/16seg/21.png">
+        <br clear="both">
+        <!-- "こんにちは、せかい!" -->
+        <img class="glyph" src="glyphs/16seg/3053.png">
+        <img class="glyph" src="glyphs/16seg/3093.png">
+        <img class="glyph" src="glyphs/16seg/306b.png">
+        <img class="glyph" src="glyphs/16seg/3061.png">
+        <img class="glyph" src="glyphs/16seg/306f.png">
+        <img class="glyph" src="glyphs/16seg/3001.png">
+        <img class="glyph" src="glyphs/16seg/305b.png">
+        <img class="glyph" src="glyphs/16seg/304b.png">
+        <img class="glyph" src="glyphs/16seg/3044.png">
+        <img class="glyph" src="glyphs/16seg/21.png">
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
