@@ -1,5 +1,5 @@
 function txtPreprocess(str) {
-    var map = {
+    const map = {
         'が': 'か゛', 'ぎ': 'き゛', 'ぐ': 'く゛', 'げ': 'け゛', 'ご': 'こ゛',
         'ざ': 'さ゛', 'じ': 'し゛', 'ず': 'す゛', 'ぜ': 'せ゛', 'ぞ': 'そ゛',
         'だ': 'た゛', 'ぢ': 'ち゛', 'づ': 'つ゛', 'で': 'て゛', 'ど': 'と゛',
@@ -26,17 +26,19 @@ function txtPreprocess(str) {
         'ﾜ': 'ワ', 'ｦ': 'ヲ', 'ﾝ': 'ン',
         'ｧ': 'ァ', 'ｨ': 'ィ', 'ｩ': 'ゥ', 'ｪ': 'ェ', 'ｫ': 'ォ',
         'ｯ': 'ッ', 'ｬ': 'ャ', 'ｭ': 'ュ', 'ｮ': 'ョ',
-        '｡': '。', '､': '、', 'ｰ': 'ー', '｢': '「', '｣': '」', '･': '・', 'ﾞ': '゛', 'ﾟ': '゜', '　': ' '
+        '｡': '。', '､': '、', 'ｰ': 'ー', '｢': '「', '｣': '」', '･': '・', 'ﾞ': '゛', 'ﾟ': '゜', '　': ' ',
+
+        '”': '"', '“': '"', '’': "'", '‘': '`'
     };
-    var reg = new RegExp('(' + Object.keys(map).join('|') + ')', 'g');
-    return str.replace(reg, function (match) {return map[match];})
+    const reg = new RegExp('(' + Object.keys(map).join('|') + ')', 'g');
+    return str.replace(reg, (match) => map[match])
+        .replace(/[！-～]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
 };
 
-function render(str) {
-    var txt = (typeof str == 'string') ? str : document.getElementById('txt').value || 'Awaiting input...';
-    txt = txtPreprocess(txt).replace(/[！-～]/g, function (s) {return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);});
-    var imgseq = '';
-    for (var i = 0; i < txt.length; i++) {
+function renderText(str) {
+    const txt = txtPreprocess((typeof str == 'string') ? str : document.getElementById('txt').value || 'Awaiting input...');
+    let imgseq = '';
+    for (let i = 0; i < txt.length; i++) {
         if (txt.codePointAt(i) == 0x0a) {
             imgseq += '<span class="height-spacer"></span><br clear="both">';
             continue;
@@ -46,12 +48,16 @@ function render(str) {
     document.getElementById('imgseq').innerHTML = imgseq;
 }
 
+function renderClock() {
+    const time = new Date().format(clockFormat.value);
+    renderText(time);
+}
+
 function updateDescription() {
-    var font = document.getElementById('font').value;
-    var desc = document.getElementById('description');
-    switch (font) {
+    const desc = document.getElementById('description');
+    switch (font.value) {
         case '16seg':
-            desc.innerText = '16-segment display. Compatible with ASCII, Hiragana, and Katakana.';
+            desc.innerText = '16-segment display. Compatible with ASCII, JIS X 0201, Hiragana, Katakana, and some glyphs from dot matrix LCD.';
             break;
         default:
             desc.innerText = 'Description unavailable.';
@@ -59,8 +65,68 @@ function updateDescription() {
     }
 }
 
-let txt = document.getElementById('txt');
-txt.addEventListener('input', render);
-let font = document.getElementById('font');
+const txt = document.getElementById('txt');
+txt.addEventListener('input', renderText);
+const samples = document.querySelectorAll('input[name="sample"]');
+for (let sample of samples) {
+    sample.addEventListener('click',
+        function () {
+            switch (sample.value) {
+                case 'Pangram':
+                    txt.value = 'The quick brown fox\n'+
+                                'jumps over the lazy dog.\n'+
+                                'WALTZ, BAD NYMPH,\n'+
+                                'FOR QUICK JIGS VEX!';
+                    break;
+                case 'Lorem ipsum':
+                    txt.value = 'Lorem ipsum dolor sit amet,\n'+
+                                'consectetur adipiscing elit,\n'+
+                                'sed do eiusmod tempor\n'+
+                                'incididunt ut labore et\n'+
+                                'dolore magna aliqua.';
+                    break;
+                case 'いろはうた':
+                    txt.value = 'いろはにほへと ちりぬるを\nわかよたれそ  つねならむ\nうゐのおくやま けふこえて\nあさきゆめみし ゑひもせす';
+                    break;
+                case 'トリナクウタ':
+                    txt.value = 'トリナクコヱス ユメサマセ\nミヨアケワタル ヒンカシヲ\nソライロハエテ オキツヘニ\nホフネムレヰヌ モヤノナカ';
+                    break;
+                default:
+                    break;
+            }
+            renderText();
+        }
+    );
+}
+document.getElementById('type-text').addEventListener('click', () => txt.focus());
+const font = document.getElementById('font');
 font.addEventListener('change', updateDescription);
-window.onload = render('Hello, world!\nこんにちは、せかい!');
+const clockFormat = document.getElementById('clock-format');
+clockFormat.addEventListener('input', renderClock);
+let timerID = null;
+const types = document.querySelectorAll('input[name="type"]');
+for (let type of types) {
+    type.addEventListener('change',
+        function changeInputArea() {
+            const txtWrap = document.getElementById('txt-wrap');
+            const clockWrap = document.getElementById('clock-wrap');
+            txtWrap.style.display = 'none';
+            clockWrap.style.display = 'none';
+            clearInterval(timerID);
+            switch (type.value) {
+                case 'text':
+                    txtWrap.style.display = 'block';
+                    renderText();
+                    break;
+                case 'clock':
+                    clockWrap.style.display = 'block';
+                    renderClock();
+                    timerID = setInterval(renderClock, 1000);
+                    break;
+                default:
+                    break;
+            }
+        }
+    );
+}
+window.onload = function () {renderText('Hello, world!\nこんにちは、せかい!'); updateDescription();};

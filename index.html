@@ -3,31 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>txt2imgseq</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
     <title>txt2imgseq</title>
 </head>
 
 <body>
     <h1>txt2imgseq</h1>
-    <hr>
-    <h2>In:</h2>
-    <div id="txt-wrap">
-        <label for="txt">Text:</label><br>
-        <textarea id="txt" name="txt" cols="40" rows="5" placeholder="input text here..." autofocus></textarea>
-        <br>
-    </div>
-    <div id="font-wrap">
-        <label for="font">Font:</label>
-        <select id="font" name="font">
-            <!-- <option value=""></option> -->
-            <option value="16seg" selected>16-segment</option>
-        </select>
-        <div id="description-wrap">
-            <p id="description">16-segment display. Compatible with ASCII, Hiragana, Katakana.</p>
+    <fieldset id="input-wrap">
+        <legend>
+            <div id="type-wrap">
+                <input type="radio" name="type" id="type-text" value="text" checked>
+                <label for="type-text">Text</label>
+                <input type="radio" name="type" id="type-clock" value="clock">
+                <label for="type-clock">Clock</label>
+                <!-- <input type="radio" name="type" id="demo" value="demo">
+                <label for="demo">Demo</label> -->
+            </div>
+        </legend>
+        <div id="font-wrap">
+            <label for="font">Font:</label>
+            <select id="font" name="font">
+                <option value="16seg" selected>16-segment</option>
+                <!-- <option value=""></option> -->
+            </select>
         </div>
-    </div>
-    <hr>
-    <h2>Out:</h2>
+        <br>
+        <div id="input-spacer"></div>
+        <div id="txt-wrap">
+            <textarea id="txt" name="txt" cols="40" rows="5" placeholder="input text here..." autofocus></textarea>
+            <span id="samples">
+                <input class="sample" name="sample" type="button" value="Pangram">
+                <input class="sample" name="sample" type="button" value="Lorem ipsum">
+                <input class="sample" name="sample" type="button" value="いろはうた">
+                <input class="sample" name="sample" type="button" value="トリナクウタ">
+            </span>
+        </div>
+        <div id="clock-wrap">
+            <label for="clock-format">Format:</label>
+            <input id="clock-format" type="text" name="txt" value="MMM-dd ddd HH:mm:ss">
+            <a id="clock-format-help" href="https://gist.github.com/marlun78/1351171#file-format-date-js-L28-L65" target="_blank" rel="noopener noreferrer">?</a>
+        </div>
+        <div id="description-wrap">
+            <span id="description"></span>
+        </div>
+    </fieldset>
     <div id="imgseq">
         <!-- "JavaScript required!" -->
         <img class="glyph" src="glyphs/16seg/4a.png">
@@ -73,12 +94,15 @@
         <img class="glyph" src="glyphs/16seg/309b.png">
         <img class="glyph" src="glyphs/16seg/3059.png">
     </div>
+    <!-- <button id="save" type="button">Save image</button> -->
     <hr>
     <div id="footer">
-        <p>©2023 Airoku <a href="https://github.com/yustier/txt2imgseq">Source</a></p>
+        ©2023 <a href="https://i6c.at">Airoku</a><br>
+        <a href="https://github.com/yustier/txt2imgseq">Source</a>
     </div>
 
     <script src="main.js"></script>
+    <script src="format-date.js"></script>
 </body>
 
 </html>
