@@ -28,12 +28,12 @@ function txtPreprocess(str) {
         'ｯ': 'ッ', 'ｬ': 'ャ', 'ｭ': 'ュ', 'ｮ': 'ョ',
         '｡': '。', '､': '、', 'ｰ': 'ー', '｢': '「', '｣': '」', '･': '・', 'ﾞ': '゛', 'ﾟ': '゜', '　': ' ',
 
-        '”': '"', '“': '"', '’': "'", '‘': '`'
+        '”': '"', '“': '"', '’': "'", '‘': '`', '…': '...'
     };
     const reg = new RegExp('(' + Object.keys(map).join('|') + ')', 'g');
     return str.replace(reg, (match) => map[match])
-        .replace(/[！-～]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
-};
+              .replace(/[！-～]/g, (s) => String.fromCharCode(s.charCodeAt(0) - 0xFEE0));
+}
 
 function renderText(str) {
     const txt = txtPreprocess((typeof str == 'string') ? str : document.getElementById('txt').value || 'Awaiting input...');
@@ -67,6 +67,7 @@ function updateDescription() {
 
 const txt = document.getElementById('txt');
 txt.addEventListener('input', renderText);
+
 const samples = document.querySelectorAll('input[name="sample"]');
 for (let sample of samples) {
     sample.addEventListener('click',
@@ -89,7 +90,7 @@ for (let sample of samples) {
                     txt.value = 'いろはにほへと ちりぬるを\nわかよたれそ  つねならむ\nうゐのおくやま けふこえて\nあさきゆめみし ゑひもせす';
                     break;
                 case 'トリナクウタ':
-                    txt.value = 'トリナクコヱス ユメサマセ\nミヨアケワタル ヒンカシヲ\nソライロハエテ オキツヘニ\nホフネムレヰヌ モヤノナカ';
+                    txt.value = 'トリナクコヱス ユメサマセ\nミヨアケワタル ヒンカシヲ\nソライロハエテ オキツヘニ\nホフネムレヰヌ モヤノウチ';
                     break;
                 default:
                     break;
@@ -98,13 +99,15 @@ for (let sample of samples) {
         }
     );
 }
-document.getElementById('type-text').addEventListener('click', () => txt.focus());
+
 const font = document.getElementById('font');
 font.addEventListener('change', updateDescription);
+
 const clockFormat = document.getElementById('clock-format');
 clockFormat.addEventListener('input', renderClock);
-let timerID = null;
+
 const types = document.querySelectorAll('input[name="type"]');
+let timerID = null;
 for (let type of types) {
     type.addEventListener('change',
         function changeInputArea() {
@@ -116,10 +119,13 @@ for (let type of types) {
             switch (type.value) {
                 case 'text':
                     txtWrap.style.display = 'block';
+                    txt.focus();
                     renderText();
                     break;
                 case 'clock':
                     clockWrap.style.display = 'block';
+                    clockFormat.focus();
+                    clockFormat.setSelectionRange(clockFormat.value.length, clockFormat.value.length);
                     renderClock();
                     timerID = setInterval(renderClock, 1000);
                     break;
@@ -129,4 +135,5 @@ for (let type of types) {
         }
     );
 }
+
 window.onload = function () {renderText('Hello, world!\nこんにちは、せかい!'); updateDescription();};
