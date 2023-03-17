@@ -1,3 +1,10 @@
+class img16seg {
+    static width = 40;
+    static height = 52;
+}
+
+let imgseqText = 'Hello, world!\nこんにちは、せかい!';
+
 function txtPreprocess(str) {
     const map = {
         'が': 'か゛', 'ぎ': 'き゛', 'ぐ': 'く゛', 'げ': 'け゛', 'ご': 'こ゛',
@@ -36,14 +43,15 @@ function txtPreprocess(str) {
 }
 
 function renderText(str) {
-    const txt = txtPreprocess((typeof str == 'string') ? str : document.getElementById('txt').value || 'Awaiting input...');
+    const text = txtPreprocess((typeof str == 'string') ? str : txt.value || 'Awaiting input...');
+    imgseqText = text;
     let imgseq = '';
-    for (let i = 0; i < txt.length; i++) {
-        if (txt.codePointAt(i) == 0x0a) {
+    for (let i = 0; i < text.length; i++) {
+        if (text.codePointAt(i) == 0x0a) {
             imgseq += '<span class="height-spacer"></span><br clear="both">';
             continue;
         }
-        imgseq += '<img class="glyph" src="glyphs/16seg/' + txt.codePointAt(i).toString(16) + '.png">';
+        imgseq += '<img class="glyph" src="glyphs/' + font.value + '/' + text.codePointAt(i).toString(16) + '.png">';
     }
     document.getElementById('imgseq').innerHTML = imgseq;
 }
@@ -65,8 +73,70 @@ function updateDescription() {
     }
 }
 
+function saveImage() {
+    const canvas = document.createElement('canvas');
+    if (canvas.getContext) {
+        const imgseq = document.getElementById('imgseq');
+        const ctx = canvas.getContext('2d');
+        const text = imgseqText;
+        console.log(text.length);
+        if (text.length == 0) {
+            return;
+        }
+        let xmax = 0;
+        let ymax = 1;
+        let x = 0;
+        let y;
+        for (let i = 0; i < text.length; i++) {
+            if (text.codePointAt(i) == 0x0a) {
+                ymax++;
+                x = 0;
+                continue;
+            }
+            x++;
+            xmax = Math.max(xmax, x);
+        }
+        const size = document.getElementById('size').value;
+        canvas.width = xmax * img16seg.width * size;
+        canvas.height = ymax * img16seg.height * size;
+        if (document.getElementById('fill-bg').checked) {
+            const space = document.querySelector('img[src="glyphs/' + font.value + '/20.png"]');
+            const spaceTile = document.createElement('canvas');
+            spaceTile.width = space.width * size;
+            spaceTile.height = space.height * size;
+            const spacetilectx = spaceTile.getContext('2d');
+            spacetilectx.drawImage(space, 0, 0, spaceTile.width, spaceTile.height);
+            ctx.fillStyle = ctx.createPattern(spaceTile, 'repeat');
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        x = 0;
+        y = 0;
+        for (let i = 0; i < text.length; i++) {
+            if (text.codePointAt(i) == 0x0a) {
+                y++;
+                x = 0;
+                continue;
+            }
+            const glyph = document.querySelector('img[src="glyphs/' + font.value + '/' + text.codePointAt(i).toString(16) + '.png"]');
+            ctx.drawImage(glyph, x * glyph.width * size, y * glyph.height * size, glyph.width * size, glyph.height * size);
+            x++;
+        }
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = '';
+        link.click();
+
+    } else {
+        alert('Currently, this feature is only available in modern browsers.');
+        // I may add a fallback in the future
+    }
+}
+
 const txt = document.getElementById('txt');
-txt.addEventListener('input', renderText);
+txt.addEventListener('input', function () {
+    txt.value ? save.disabled = false : save.disabled = true;
+    renderText();
+});
 
 const samples = document.querySelectorAll('input[name="sample"]');
 for (let sample of samples) {
@@ -136,4 +206,7 @@ for (let type of types) {
     );
 }
 
-window.onload = function () {renderText('Hello, world!\nこんにちは、せかい!'); updateDescription();};
+const save = document.getElementById('save');
+save.addEventListener('click', saveImage);
+
+window.onload = function () {renderText(imgseqText); updateDescription();};

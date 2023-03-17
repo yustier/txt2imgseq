@@ -58,6 +58,7 @@ label[for="font"] {
     overflow-x: auto;
     font-size: 0;
     padding: 20px 0;
+    /* max-width: fit-content; */
 }
 
 .glyph {
@@ -69,4 +70,16 @@ label[for="font"] {
     display: inline-block;
     height: 52px;
     vertical-align: top;
+}
+
+#save-wrap {
+    padding: 20px 0 0;
+}
+
+#save-wrap * {
+    vertical-align: middle;
+}
+
+label[for='size'], label[for='fill-bg'] {
+    font-size: 14px;
 }
