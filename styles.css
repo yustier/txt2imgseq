@@ -1,3 +1,7 @@
+:root {
+    color-scheme: light dark;
+}
+
 label {
     font-size: 18px;
 }
